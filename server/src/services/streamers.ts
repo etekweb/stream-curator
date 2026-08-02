@@ -111,14 +111,18 @@ export function isScheduledNow(
   };
 
   for (const s of enabled) {
-    if (s.day_of_week !== day) continue;
     const start = toMinutes(String(s.start_time));
     const end = toMinutes(String(s.end_time));
     if (start < end) {
-      if (minutes >= start && minutes < end) return true;
+      // Same calendar day window
+      if (s.day_of_week === day && minutes >= start && minutes < end) return true;
     } else {
-      // Overnight window
-      if (minutes >= start || minutes < end) return true;
+      // Overnight: day D from start→midnight, day D+1 from midnight→end.
+      // Do NOT treat early morning on day D as live — that belongs to the
+      // previous night's window (or is simply before tonight's start).
+      if (s.day_of_week === day && minutes >= start) return true;
+      const nextDay = (s.day_of_week + 1) % 7;
+      if (day === nextDay && minutes < end) return true;
     }
   }
   return false;
