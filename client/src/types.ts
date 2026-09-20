@@ -127,3 +127,15 @@ export const PLATFORM_LABELS: Record<Platform, string> = {
   rumble: 'Rumble',
   x: 'X',
 };
+
+/** Logged-in following / subscriptions page for each platform. */
+export const PLATFORM_FOLLOW_PAGES: Record<
+  Platform,
+  { url: string; pageLabel: string }
+> = {
+  twitch: { url: 'https://www.twitch.tv/directory/following', pageLabel: 'Following' },
+  kick: { url: 'https://kick.com/following', pageLabel: 'Following' },
+  youtube: { url: 'https://www.youtube.com/feed/subscriptions', pageLabel: 'Subscriptions' },
+  rumble: { url: 'https://rumble.com/subscriptions', pageLabel: 'Subscriptions' },
+  x: { url: 'https://x.com/home', pageLabel: 'Following' },
+};
